@@ -1,0 +1,5 @@
+package com.solbeg.BookLibrary.entity;
+
+public enum Tag {
+    ACTION, ADVENTURE, COMIC, DETECTIVE, FANTASY, NOVEL, BIOGRAPHY, POESY, AUTOBIOGRAPHY, SCIENCE_FICTION, SCIENCE
+}
