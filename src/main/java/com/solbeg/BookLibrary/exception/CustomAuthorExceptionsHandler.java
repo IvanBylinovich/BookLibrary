@@ -9,10 +9,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.time.ZonedDateTime;
 
 @ControllerAdvice
-public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class CustomAuthorExceptionsHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({AuthorNotFoundException.class, AuthorAlreadyExistException.class})
-    public ResponseEntity<Object> handleAuthorNotFoundException(RuntimeException exception) {
+    public ResponseEntity<Object> handleAuthorExceptions(RuntimeException exception) {
         CustomErrorResponse errors = new CustomErrorResponse();
         errors.setTimestamp(ZonedDateTime.now());
         errors.setError(exception.getMessage());

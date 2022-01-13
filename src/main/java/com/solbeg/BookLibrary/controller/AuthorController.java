@@ -28,8 +28,8 @@ public class AuthorController {
         return ResponseEntity.ok().body(authorService.findAllAuthors());
     }
 
-    @GetMapping
-    public ResponseEntity<AuthorResponseDto> getAuthorById(String id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<AuthorResponseDto> getAuthorById(@PathVariable String id) {
         return ResponseEntity.ok().body(authorService.findAuthorById(id));
     }
 

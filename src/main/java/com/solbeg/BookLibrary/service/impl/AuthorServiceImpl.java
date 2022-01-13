@@ -2,57 +2,59 @@ package com.solbeg.BookLibrary.service.impl;
 
 import com.solbeg.BookLibrary.dto.AuthorRequestDto;
 import com.solbeg.BookLibrary.dto.AuthorResponseDto;
-import com.solbeg.BookLibrary.model.Author;
 import com.solbeg.BookLibrary.exception.AuthorAlreadyExistException;
 import com.solbeg.BookLibrary.exception.AuthorNotFoundException;
+import com.solbeg.BookLibrary.mapper.AuthorMapper;
+import com.solbeg.BookLibrary.model.Author;
 import com.solbeg.BookLibrary.repository.AuthorRepository;
 import com.solbeg.BookLibrary.service.AuthorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorRepository authorRepository;
+    private final AuthorMapper authorMapper;
 
     @Override
     public List<AuthorResponseDto> findAllAuthors() {
-        List<Author> authors = authorRepository.findAll();
-
-        List<AuthorResponseDto> authorsResponseDto = new ArrayList<>();
-        for (Author author : authors) {
-            authorsResponseDto.add(new AuthorResponseDto(author.getId(), author.getFirstName(), author.getLastName()));
-        }
-        return authorsResponseDto;
+        return authorRepository.findAll().stream()
+                .map(authorMapper::convertAuthorToAuthorResponseDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public AuthorResponseDto findAuthorById(String id) {
         Author author = findAuthorOrThrowException(id);
-        return new AuthorResponseDto(author.getId(), author.getFirstName(), author.getLastName());
+        return authorMapper.convertAuthorToAuthorResponseDto(author);
     }
 
     @Override
     public AuthorResponseDto createAuthor(AuthorRequestDto authorRequestDto) {
-        if (authorRepository.existsByFirstNameAndLastName(authorRequestDto.getFirstName(), authorRequestDto.getLastName())) {
-            throw new AuthorAlreadyExistException(authorRequestDto.getFirstName(), authorRequestDto.getLastName());
+        Author author = authorRepository.findByFirstNameAndLastName(authorRequestDto.getFirstName(), authorRequestDto.getLastName()).orElse(null);
+        if (author == null) {
+            author = authorMapper.convertAuthorRequestDtoToAuthor(authorRequestDto);
+            authorRepository.save(author);
         }
-        Author author = new Author(authorRequestDto.getFirstName(), authorRequestDto.getLastName());
-        authorRepository.save(author);
-        return new AuthorResponseDto(author.getId(), author.getFirstName(), author.getLastName());
+        return authorMapper.convertAuthorToAuthorResponseDto(author);
     }
 
     @Override
     public AuthorResponseDto updateAuthor(String id, AuthorRequestDto authorRequestDto) {
-        Author author = findAuthorOrThrowException(id);
-        author.setFirstName(authorRequestDto.getFirstName());
-        author.setLastName(authorRequestDto.getLastName());
+        Author author = authorRepository.findByFirstNameAndLastName(authorRequestDto.getFirstName(), authorRequestDto.getLastName()).orElse(null);
+        if (author != null) {
+            throw new AuthorAlreadyExistException(authorRequestDto.getFirstName(), authorRequestDto.getLastName());
+        }
+        findAuthorOrThrowException(id);
+        author = authorMapper.convertAuthorRequestDtoToAuthor(authorRequestDto);
+        author.setId(id);
         authorRepository.save(author);
-        return new AuthorResponseDto(author.getId(), author.getFirstName(), author.getLastName());
+        return authorMapper.convertAuthorToAuthorResponseDto(author);
     }
 
     @Override
@@ -65,5 +67,4 @@ public class AuthorServiceImpl implements AuthorService {
         return authorRepository.findAuthorById(id)
                 .orElseThrow(() -> new AuthorNotFoundException(id));
     }
-
 }
