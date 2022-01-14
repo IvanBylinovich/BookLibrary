@@ -11,6 +11,4 @@ public class AuthorResponseDto {
     private String id;
     private String firstName;
     private String lastName;
-
-
 }
