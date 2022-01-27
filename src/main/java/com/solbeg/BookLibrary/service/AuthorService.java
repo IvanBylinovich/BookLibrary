@@ -2,6 +2,7 @@ package com.solbeg.BookLibrary.service;
 
 import com.solbeg.BookLibrary.dto.AuthorRequestDto;
 import com.solbeg.BookLibrary.dto.AuthorResponseDto;
+import com.solbeg.BookLibrary.model.entity.Author;
 
 import java.util.List;
 
@@ -17,4 +18,5 @@ public interface AuthorService {
 
     void deleteAuthor(String id);
 
+    Author getExistingAuthorOrCreateAuthor(AuthorRequestDto authorRequestDto);
 }

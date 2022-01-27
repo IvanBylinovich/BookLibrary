@@ -1,13 +1,17 @@
 package com.solbeg.BookLibrary.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+import javax.validation.constraints.NotBlank;
+
+@Getter
+@Setter
 public class AuthorRequestDto {
+
+    @NotBlank(message = "The author's first name should not be null or empty")
     private String firstName;
+
+    @NotBlank(message = "The author's last name should not be null or empty")
     private String lastName;
 }
