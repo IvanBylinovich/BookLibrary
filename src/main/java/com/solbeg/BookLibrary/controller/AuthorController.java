@@ -14,16 +14,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/author")
+@RequestMapping("/authors")
 public class AuthorController {
 
     private final AuthorService authorService;
 
-    @GetMapping("/allAuthor")
+    @GetMapping("/allAuthors")
     public ResponseEntity<List<AuthorResponseDto>> getAllAuthors() {
         return ResponseEntity.ok().body(authorService.findAllAuthors());
     }
@@ -34,17 +35,17 @@ public class AuthorController {
     }
 
     @PostMapping
-    public ResponseEntity<AuthorResponseDto> createAuthor(@RequestBody AuthorRequestDto authorRequestDto) {
+    public ResponseEntity<AuthorResponseDto> createAuthor(@RequestBody @Valid AuthorRequestDto authorRequestDto) {
         return ResponseEntity.ok().body(authorService.createAuthor(authorRequestDto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AuthorResponseDto> updateAuthor(@PathVariable String id, @RequestBody AuthorRequestDto authorRequestDto) {
+    public ResponseEntity<AuthorResponseDto> updateAuthor(@PathVariable String id, @RequestBody @Valid AuthorRequestDto authorRequestDto) {
         return ResponseEntity.ok().body(authorService.updateAuthor(id, authorRequestDto));
     }
 
-    @DeleteMapping
-    public void deleteAuthor(String id) {
+    @DeleteMapping("/{id}")
+    public void deleteAuthor(@PathVariable String id) {
         authorService.deleteAuthor(id);
     }
 }
