@@ -27,10 +27,6 @@
                 <constraints nullable="false"/>
             </column>
 
-            <column name="tag" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-
             <column name="created_at" type="timestamp">
                 <constraints nullable="false"/>
             </column>
@@ -41,7 +37,6 @@
 
         </createTable>
     </changeSet>
-
     <changeSet id="0002-02-book" author="ivan.bylinovich">
         <addForeignKeyConstraint baseTableName="book"
                                  baseColumnNames="author_id"
