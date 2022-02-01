@@ -33,12 +33,22 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return createResponseEntityFromRuntimeException(exception);
     }
 
+    @ExceptionHandler({
+            TagNotFoundByIdException.class,
+            TagNotFoundByNameException.class,
+            TagAlreadyExistByNameException.class
+    })
+    public ResponseEntity<Object> handleTagException(RuntimeException exception) {
+        return createResponseEntityFromRuntimeException(exception);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception, HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> errors = exception.getBindingResult()
                 .getFieldErrors()
                 .stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .distinct()
                 .collect(Collectors.toList());
 
         CustomErrorResponseForMethodArgumentNotValidException argumentNotValidException = new CustomErrorResponseForMethodArgumentNotValidException(
