@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -62,11 +63,17 @@ public class TagServiceImpl implements TagService {
     @Override
     public void deleteTag(String id) {
         Tag tag = findTagOrThrowException(id);
+        bookRepository.findAllByTagsContains(tag).ifPresent(books -> {
+            books.forEach(book -> book.getTags().remove(tag));
+            bookRepository.saveAll(books);
+        });
         tagRepository.delete(tag);
-        bookRepository.findAllByTags_Empty().ifPresent(bookRepository::deleteAll);
     }
 
     public Set<Tag> getExistingTagsOrThrowException(Set<TagRequestDto> tags) {
+        if (tags == null) {
+            return new HashSet<>();
+        }
         return tags.stream()
                 .map(t -> tagRepository.findTagByName(t.getName())
                         .orElseThrow(() -> new TagNotFoundByNameException(t.getName())))

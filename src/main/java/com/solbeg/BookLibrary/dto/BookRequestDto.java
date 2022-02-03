@@ -32,9 +32,8 @@ public class BookRequestDto {
     @ApiModelProperty(value = "Book's price", example = "9.99", required = true)
     private BigDecimal price;
 
-    @NotNull(message = "The book's tags should not be null")
     @Valid
-    @ApiModelProperty(value = "Book's genres", required = true)
+    @ApiModelProperty(value = "Book's genres")
     private Set<TagRequestDto> tags;
 
     @NotNull(message = "The book's author should not be null")

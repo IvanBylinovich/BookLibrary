@@ -2,6 +2,7 @@ package com.solbeg.BookLibrary.repository;
 
 import com.solbeg.BookLibrary.model.entity.Author;
 import com.solbeg.BookLibrary.model.entity.Book;
+import com.solbeg.BookLibrary.model.entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,5 +16,5 @@ public interface BookRepository extends JpaRepository<Book, String> {
 
     Optional<List<Book>> findAllByAuthor(Author author);
 
-    Optional<List<Book>> findAllByTags_Empty();
+    Optional<List<Book>> findAllByTagsContains(Tag tag);
 }
