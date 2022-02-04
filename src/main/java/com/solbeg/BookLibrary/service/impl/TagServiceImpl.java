@@ -62,8 +62,11 @@ public class TagServiceImpl implements TagService {
     @Override
     public void deleteTag(String id) {
         Tag tag = findTagOrThrowException(id);
+        bookRepository.findAllByTagsContains(tag).ifPresent(books -> {
+            books.forEach(book -> book.getTags().remove(tag));
+            bookRepository.saveAll(books);
+        });
         tagRepository.delete(tag);
-        bookRepository.findAllByTags_Empty().ifPresent(bookRepository::deleteAll);
     }
 
     public Set<Tag> getExistingTagsOrThrowException(Set<TagRequestDto> tags) {

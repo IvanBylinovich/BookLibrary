@@ -1,6 +1,5 @@
 package com.solbeg.BookLibrary.controller;
 
-import com.solbeg.BookLibrary.config.SwaggerConfig;
 import com.solbeg.BookLibrary.dto.AuthorRequestDto;
 import com.solbeg.BookLibrary.dto.AuthorResponseDto;
 import com.solbeg.BookLibrary.service.AuthorService;
@@ -20,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 
+import static com.solbeg.BookLibrary.config.SwaggerConfig.AUTHOR_SERVICE_SWAGGER_TAG;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/authors")
-@Api(tags = {SwaggerConfig.AUTHOR_CONTROLLER_TAG})
+@Api(tags = {AUTHOR_SERVICE_SWAGGER_TAG})
 public class AuthorController {
 
     private final AuthorService authorService;

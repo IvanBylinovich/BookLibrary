@@ -1,6 +1,5 @@
 package com.solbeg.BookLibrary.controller;
 
-import com.solbeg.BookLibrary.config.SwaggerConfig;
 import com.solbeg.BookLibrary.dto.TagRequestDto;
 import com.solbeg.BookLibrary.dto.TagResponseDto;
 import com.solbeg.BookLibrary.service.TagService;
@@ -20,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.Set;
 
+import static com.solbeg.BookLibrary.config.SwaggerConfig.TAG_SERVICE_SWAGGER_TAG;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/tags")
-@Api(tags = {SwaggerConfig.TAG_CONTROLLER_TAG})
+@Api(tags = {TAG_SERVICE_SWAGGER_TAG})
 public class TagController {
 
     private final TagService tagService;
@@ -40,7 +41,7 @@ public class TagController {
         return ResponseEntity.ok().body(tagService.findTagById(id));
     }
 
-    @PostMapping()
+    @PostMapping
     @ApiOperation(value = "Create tag", notes = "Provide method to create tag", response = ResponseEntity.class)
     public ResponseEntity<TagResponseDto> createTag(@RequestBody @Valid TagRequestDto tagRequestDto) {
         return ResponseEntity.ok().body(tagService.createTag(tagRequestDto));
