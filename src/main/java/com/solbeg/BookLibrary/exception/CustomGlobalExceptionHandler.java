@@ -34,6 +34,28 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     }
 
     @ExceptionHandler({
+            OrderNotFoundByIdException.class,
+            OrderNotDraftException.class
+    })
+    public ResponseEntity<Object> handleOrderException(RuntimeException exception) {
+        return createResponseEntityFromRuntimeException(exception);
+    }
+
+    @ExceptionHandler({
+            DuplicateOrderPositionsException.class,
+    })
+    public ResponseEntity<Object> handleOrderPositionException(RuntimeException exception) {
+        return createResponseEntityFromRuntimeException(exception);
+    }
+
+    @ExceptionHandler({
+            OrderStatusNotFoundException.class,
+    })
+    public ResponseEntity<Object> handleOrderStatusException(RuntimeException exception) {
+        return createResponseEntityFromRuntimeException(exception);
+    }
+
+    @ExceptionHandler({
             TagNotFoundByIdException.class,
             TagNotFoundByNameException.class,
             TagAlreadyExistByNameException.class

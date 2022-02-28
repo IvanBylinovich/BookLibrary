@@ -1,6 +1,5 @@
 package com.solbeg.BookLibrary.controller;
 
-import com.solbeg.BookLibrary.config.SwaggerConfig;
 import com.solbeg.BookLibrary.dto.BookRequestDto;
 import com.solbeg.BookLibrary.dto.BookResponseDto;
 import com.solbeg.BookLibrary.service.BookService;
@@ -20,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 
+import static com.solbeg.BookLibrary.config.SwaggerConfig.BOOK_SERVICE_SWAGGER_TAG;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/books")
-@Api(tags = {SwaggerConfig.BOOK_CONTROLLER_TAG})
+@Api(tags = {BOOK_SERVICE_SWAGGER_TAG})
 public class BookController {
 
     private final BookService bookService;
@@ -40,7 +41,7 @@ public class BookController {
         return ResponseEntity.ok().body(bookService.findBookById(id));
     }
 
-    @PostMapping()
+    @PostMapping
     @ApiOperation(value = "Create book", notes = "Provide method to create book", response = ResponseEntity.class)
     public ResponseEntity<BookResponseDto> createBook(@RequestBody @Valid BookRequestDto bookRequestDto) {
         return ResponseEntity.ok().body(bookService.createBook(bookRequestDto));

@@ -25,9 +25,9 @@ import java.util.stream.Collectors;
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
-    private final BookMapper bookMapper;
     private final AuthorService authorService;
     private final TagService tagService;
+    private final BookMapper bookMapper;
 
     @Override
     public List<BookResponseDto> findAllBooks() {
@@ -82,7 +82,7 @@ public class BookServiceImpl implements BookService {
         bookRepository.delete(book);
     }
 
-    private Book findBookOrThrowException(String id) {
+    public Book findBookOrThrowException(String id) {
         return bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundByIdException(id));
     }
