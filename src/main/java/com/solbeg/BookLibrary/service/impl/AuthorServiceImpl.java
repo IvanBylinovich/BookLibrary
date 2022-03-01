@@ -24,6 +24,7 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorMapper authorMapper;
     private final BookRepository bookRepository;
 
+    @Transactional(readOnly = true)
     @Override
     public List<AuthorResponseDto> findAllAuthors() {
         return authorRepository.findAll().stream()
@@ -31,6 +32,7 @@ public class AuthorServiceImpl implements AuthorService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public AuthorResponseDto findAuthorById(String id) {
         return authorMapper.convertAuthorToAuthorResponseDto(findAuthorOrThrowException(id));

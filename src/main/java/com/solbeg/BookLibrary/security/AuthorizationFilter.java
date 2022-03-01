@@ -20,13 +20,16 @@ import java.util.Map;
 
 import static com.solbeg.BookLibrary.utils.LibraryConstants.JWT_PREFIX;
 import static com.solbeg.BookLibrary.utils.LibraryConstants.JWT_SECRET;
+import static com.solbeg.BookLibrary.utils.LibraryConstants.LOGIN_URL;
+import static com.solbeg.BookLibrary.utils.LibraryConstants.REFRESH_TOKEN_URL;
+import static com.solbeg.BookLibrary.utils.LibraryConstants.ROLES;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 public class AuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().equals("login") || request.getServletPath().equals("/users/refreshToken")) {
+        if (request.getServletPath().equals(LOGIN_URL) || request.getServletPath().equals(REFRESH_TOKEN_URL)) {
             filterChain.doFilter(request, response);
         } else {
             String authorizationHeader = request.getHeader(AUTHORIZATION);
@@ -51,7 +54,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
     private UsernamePasswordAuthenticationToken createAuthenticationToken(DecodedJWT decodedJWT) {
         String username = decodedJWT.getSubject();
-        String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
+        String[] roles = decodedJWT.getClaim(ROLES).asArray(String.class);
         Collection<SimpleGrantedAuthority> authorities = Arrays.stream(roles)
                 .map(SimpleGrantedAuthority::new)
                 .toList();

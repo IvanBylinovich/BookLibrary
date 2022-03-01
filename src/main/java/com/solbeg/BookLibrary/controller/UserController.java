@@ -26,7 +26,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
-@Api(tags = {SwaggerConfig.USER_SERVICE_TAG})
+@Api(tags = {SwaggerConfig.USER_SERVICE_SWAGGER_TAG})
 public class UserController {
 
     private final UserService userService;
@@ -49,21 +49,21 @@ public class UserController {
         userService.refreshToken(request, response);
     }
 
-    @PostMapping("/registration")
-    @ApiOperation(value = "User registration", notes = "Provide method to register user")
-    public void createUser(@RequestBody @Valid UserRequestDto userRequestDto) {
-        userService.createUser(userRequestDto);
+    @PostMapping("/registration/user")
+    @ApiOperation(value = "Register user with role USER", notes = "Provide method to register user with role USER")
+    public ResponseEntity<UserResponseDto> createUser(@RequestBody @Valid UserRequestDto userRequestDto) {
+        return ResponseEntity.ok().body(userService.registerUser(userRequestDto));
     }
 
-    @PostMapping("/admin")
-    @ApiOperation(value = "Create user with role ADMIN", notes = "Provide method to create user with role ADMIN")
-    public void createUserAdmin(@RequestBody @Valid UserRequestDto userRequestDto) {
-        userService.createUserAdmin(userRequestDto);
+    @PostMapping("/registration/admin")
+    @ApiOperation(value = "Register user with role ADMIN", notes = "Provide method to register user with role ADMIN")
+    public ResponseEntity<UserResponseDto> createUserAdmin(@RequestBody @Valid UserRequestDto userRequestDto) {
+        return ResponseEntity.ok().body(userService.registerAdmin(userRequestDto));
     }
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Update user", notes = "Provide method to update user", response = ResponseEntity.class)
-    public ResponseEntity<UserResponseDto> updateUser(@PathVariable String id, @RequestBody UserRequestDto userRequestDto) {
+    public ResponseEntity<UserResponseDto> updateUser(@PathVariable String id, @RequestBody @Valid UserRequestDto userRequestDto) {
         return ResponseEntity.ok().body(userService.updateUser(id, userRequestDto));
     }
 

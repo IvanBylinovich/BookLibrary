@@ -17,15 +17,15 @@ public interface UserService {
 
     User findUserByUsernameOrThrowException(String username);
 
-    UserResponseDto createUser(UserRequestDto userRequestDto);
+    UserResponseDto registerUser(UserRequestDto userRequestDto);
 
-    UserResponseDto createUserAdmin(UserRequestDto userRequestDto);
+    UserResponseDto registerAdmin(UserRequestDto userRequestDto);
 
     void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException;
 
     UserResponseDto updateUser(String id, UserRequestDto userRequestDto);
 
-    User findUserByIdOrThrowException(String username);
+    User findUserByIdOrThrowException(String id);
 
     void validationUsername(String username);
 

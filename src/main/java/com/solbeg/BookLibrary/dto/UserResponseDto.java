@@ -5,9 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import static com.solbeg.BookLibrary.utils.LibraryConstants.ID_SWAGGER_EXAMPLE;
-import static com.solbeg.BookLibrary.utils.LibraryConstants.USER_LAST_FIRST_NAME_SWAGGER_EXAMPLE;
 import static com.solbeg.BookLibrary.utils.LibraryConstants.USERNAME_SWAGGER_EXAMPLE;
 import static com.solbeg.BookLibrary.utils.LibraryConstants.USER_FIRST_NAME_SWAGGER_EXAMPLE;
+import static com.solbeg.BookLibrary.utils.LibraryConstants.USER_LAST_FIRST_NAME_SWAGGER_EXAMPLE;
 
 @Getter
 @Setter

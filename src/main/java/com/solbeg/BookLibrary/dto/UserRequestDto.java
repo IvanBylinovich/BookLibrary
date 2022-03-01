@@ -8,10 +8,10 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import static com.solbeg.BookLibrary.utils.LibraryConstants.USER_LAST_FIRST_NAME_SWAGGER_EXAMPLE;
 import static com.solbeg.BookLibrary.utils.LibraryConstants.PASSWORD_SWAGGER_EXAMPLE;
 import static com.solbeg.BookLibrary.utils.LibraryConstants.USERNAME_SWAGGER_EXAMPLE;
 import static com.solbeg.BookLibrary.utils.LibraryConstants.USER_FIRST_NAME_SWAGGER_EXAMPLE;
+import static com.solbeg.BookLibrary.utils.LibraryConstants.USER_LAST_FIRST_NAME_SWAGGER_EXAMPLE;
 
 @Getter
 @Setter

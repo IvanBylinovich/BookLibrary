@@ -16,7 +16,6 @@ import springfox.documentation.swagger.web.SecurityConfiguration;
 import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static com.solbeg.BookLibrary.config.SwaggerSettings.apiInfo;
@@ -31,14 +30,19 @@ public class SwaggerConfig implements WebMvcConfigurer {
     public static final String AUTHOR_SERVICE_SWAGGER_TAG = "author service";
     public static final String TAG_SERVICE_SWAGGER_TAG = "tag service";
     public static final String ORDER_SERVICE_SWAGGER_TAG = "order service";
-    public static final String USER_SERVICE_TAG = "user service";
+    public static final String USER_SERVICE_SWAGGER_TAG = "user service";
+    public static final String SCOPE_GLOBAL = "global";
+    public static final String SCOPE_DESCRIPTION = "accessEverything";
+    public static final String API_KEY_TYPE = "JWT";
+    public static final String API_SECURITY_METHOD_TYPE = "Authorization";
+    public static final String API_TRANSFER_KEY_METHOD = "header";
 
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
-                .securityContexts(Arrays.asList(securityContext()))
-                .securitySchemes(Arrays.asList(apiKey()))
+                .securityContexts(List.of(securityContext()))
+                .securitySchemes(List.of(apiKey()))
                 .select()
                 .apis(RequestHandlerSelectors.basePackage(PROJECT_BASE_PACKAGE_PATH))
                 .paths(PathSelectors.any())
@@ -61,7 +65,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
     }
 
     private ApiKey apiKey() {
-        return new ApiKey("JWT", "Authorization", "header");
+        return new ApiKey(API_KEY_TYPE, API_SECURITY_METHOD_TYPE, API_TRANSFER_KEY_METHOD);
     }
 
     private SecurityContext securityContext() {
@@ -69,10 +73,9 @@ public class SwaggerConfig implements WebMvcConfigurer {
     }
 
     private List<SecurityReference> defaultAuth() {
-        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope authorizationScope = new AuthorizationScope(SCOPE_GLOBAL, SCOPE_DESCRIPTION);
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
-        return Arrays.asList(new SecurityReference("JWT", authorizationScopes));
+        return List.of(new SecurityReference(API_KEY_TYPE, authorizationScopes));
     }
-
 }
