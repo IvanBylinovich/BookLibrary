@@ -15,11 +15,13 @@ import com.solbeg.BookLibrary.model.entity.Order;
 import com.solbeg.BookLibrary.model.entity.OrderPosition;
 import com.solbeg.BookLibrary.model.entity.OrderedBook;
 import com.solbeg.BookLibrary.model.entity.Tag;
+import com.solbeg.BookLibrary.model.entity.User;
 import com.solbeg.BookLibrary.repository.OrderPositionRepository;
 import com.solbeg.BookLibrary.repository.OrderRepository;
 import com.solbeg.BookLibrary.repository.OrderedBookRepository;
 import com.solbeg.BookLibrary.service.BookService;
 import com.solbeg.BookLibrary.service.OrderService;
+import com.solbeg.BookLibrary.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +45,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderPositionRepository orderPositionRepository;
     private final BookService bookService;
     private final OrderMapper orderMapper;
+    private final UserService userService;
 
     @Transactional(readOnly = true)
     @Override
@@ -61,8 +64,10 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public OrderResponseDto createOrder(OrderRequestDto orderRequestDto) {
+        User user = userService.findUserByIdOrThrowException(orderRequestDto.getUserId());
         List<OrderPosition> orderPositions = createOrderPositions(orderRequestDto);
         Order order = new Order();
+        order.setUser(user);
         order.setOrderPositions(orderPositions);
         BigDecimal totalAmount = countOrderTotalAmount(orderPositions);
         order.setTotalAmount(totalAmount);
@@ -77,11 +82,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderResponseDto updateOrder(String id, OrderRequestDto orderRequestDto) {
         Order order = findOrderOrThrowException(id);
+        User user = userService.findUserByIdOrThrowException(orderRequestDto.getUserId());
         if (order.getOrderStatus() != OrderStatus.DRAFT) {
             throw new OrderNotDraftException(id);
         }
         deleteOrderPositions(order);
         List<OrderPosition> orderPositions = createOrderPositions(orderRequestDto);
+        order.setUser(user);
         order.setOrderPositions(orderPositions);
         BigDecimal totalAmount = countOrderTotalAmount(orderPositions);
         order.setTotalAmount(totalAmount);

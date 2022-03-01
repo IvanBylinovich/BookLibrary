@@ -18,6 +18,15 @@ import java.util.stream.Collectors;
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({
+            UserNotFoundByIdException.class,
+            UserNotFoundByUsernameException.class,
+            UsernameAlreadyExistException.class
+    })
+    public ResponseEntity<Object> handleUserException(RuntimeException exception) {
+        return createResponseEntityFromRuntimeException(exception);
+    }
+
+    @ExceptionHandler({
             AuthorNotFoundByIdException.class,
             AuthorAlreadyExistByFirstNameAndLastNameException.class
     })

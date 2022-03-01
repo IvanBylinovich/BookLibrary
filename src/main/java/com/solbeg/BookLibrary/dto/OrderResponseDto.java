@@ -20,6 +20,9 @@ public class OrderResponseDto {
     @ApiModelProperty(value = "Order's id", example = ID_SWAGGER_EXAMPLE)
     private String id;
 
+    @ApiModelProperty(value = "User who made the order")
+    private UserResponseDto user;
+
     @ApiModelProperty(value = "Order's positions")
     private List<OrderPositionResponseDto> orderPositions;
 
