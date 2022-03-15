@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  booklibrary:
+    restart: unless-stopped
+    image: booklibrary
+    build: .
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=9110201
+
+  db:
+    restart: unless-stopped
+    image: postgres:latest
+    volumes:
+      - ./.database/postgres/data:/var/lib/postgresql/data
+    ports:
+          - 5433:5432
+    environment:
+      - POSTGRES_PASSWORD=9110201
+      - POSTGRES_PORT=5433

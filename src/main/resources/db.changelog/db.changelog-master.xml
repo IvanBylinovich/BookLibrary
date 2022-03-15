@@ -8,8 +8,9 @@
     <include relativeToChangelogFile="true" file="db.changelog-0002-book.xml"/>
     <include relativeToChangelogFile="true" file="db.changelog-0003-tag.xml"/>
     <include relativeToChangelogFile="true" file="db.changelog-0004-book-tag.xml"/>
-    <include relativeToChangelogFile="true" file="db.changelog-0005-order.xml"/>
-    <include relativeToChangelogFile="true" file="db.changelog-0006-ordered_book.xml"/>
-    <include relativeToChangelogFile="true" file="db.changelog-0007-order_position.xml"/>
+    <include relativeToChangelogFile="true" file="db.changelog-0005-users.xml"/>
+    <include relativeToChangelogFile="true" file="db.changelog-0006-order.xml"/>
+    <include relativeToChangelogFile="true" file="db.changelog-0007-ordered_book.xml"/>
+    <include relativeToChangelogFile="true" file="db.changelog-0008-order_position.xml"/>
 
 </databaseChangeLog>
