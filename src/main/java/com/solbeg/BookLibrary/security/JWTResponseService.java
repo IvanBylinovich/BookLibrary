@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.solbeg.BookLibrary.utils.LibraryConstants.HEADER_ERROR;
+import static com.solbeg.BookLibrary.utils.LibraryConstants.HEADER_ERROR_MESSAGE;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -17,7 +18,7 @@ public class JWTResponseService {
         response.setHeader(HEADER_ERROR, exception.getMessage());
         response.setStatus(FORBIDDEN.value());
         Map<String, String> error = new HashMap<>();
-        error.put("error_message", exception.getMessage());
+        error.put(HEADER_ERROR_MESSAGE, exception.getMessage());
         return error;
     }
 

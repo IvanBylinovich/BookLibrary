@@ -14,6 +14,12 @@ import java.util.Date;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.solbeg.BookLibrary.utils.LibraryConstants.HEADER_ACCESS_TOKEN;
+import static com.solbeg.BookLibrary.utils.LibraryConstants.HEADER_REFRESH_TOKEN;
+import static com.solbeg.BookLibrary.utils.LibraryConstants.JWT_REFRESH_TOKEN_LIFETIME;
+import static com.solbeg.BookLibrary.utils.LibraryConstants.JWT_TOKEN_LIFETIME;
+import static com.solbeg.BookLibrary.utils.LibraryConstants.ROLES;
+
 @Component
 public class JWTService {
 
@@ -27,21 +33,21 @@ public class JWTService {
     public String createAccessToken(UserDetails user, HttpServletRequest request, Algorithm algorithm) {
         return JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 20 * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + JWT_TOKEN_LIFETIME))
                 .withIssuer(request.getRequestURI())
-                .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                .withClaim(ROLES, user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
     }
 
     public String createRefreshToken(org.springframework.security.core.userdetails.User user, HttpServletRequest request, Algorithm algorithm) {
         return JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 100 * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + JWT_REFRESH_TOKEN_LIFETIME))
                 .withIssuer(request.getRequestURI())
                 .sign(algorithm);
     }
 
     public Map<String, String> mapTokens(String access_token, String refresh_token) {
-        return Map.of("access_token", access_token, "refresh_token", refresh_token);
+        return Map.of(HEADER_ACCESS_TOKEN, access_token, HEADER_REFRESH_TOKEN, refresh_token);
     }
 }

@@ -14,6 +14,7 @@ import com.solbeg.BookLibrary.service.BookService;
 import com.solbeg.BookLibrary.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -29,6 +30,7 @@ public class BookServiceImpl implements BookService {
     private final TagService tagService;
     private final BookMapper bookMapper;
 
+    @Transactional(readOnly = true)
     @Override
     public List<BookResponseDto> findAllBooks() {
         return bookRepository.findAll().stream()
@@ -36,11 +38,13 @@ public class BookServiceImpl implements BookService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public BookResponseDto findBookById(String id) {
         return bookMapper.convertBookToBookResponseDto(findBookOrThrowException(id));
     }
 
+    @Transactional
     @Override
     public BookResponseDto createBook(BookRequestDto bookRequestDto) {
         Author author = authorService.getExistingAuthorOrCreateAuthor(bookRequestDto.getAuthor());
@@ -57,6 +61,7 @@ public class BookServiceImpl implements BookService {
         return bookMapper.convertBookToBookResponseDto(book);
     }
 
+    @Transactional
     @Override
     public BookResponseDto updateBook(String id, BookRequestDto bookRequestDto) {
         Book existingBook = findBookOrThrowException(id);

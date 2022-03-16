@@ -22,11 +22,21 @@ public class LibraryConstants {
     public static final String PASSWORD_SWAGGER_EXAMPLE = "qJP7h3TRkL*&7";
     public static final String USER_FIRST_NAME_SWAGGER_EXAMPLE = "Ivan";
     public static final String USER_LAST_FIRST_NAME_SWAGGER_EXAMPLE = "Bylinovich";
+    public static final String USER_ROLE_SWAGGER_EXAMPLE = "ADMIN";
     public static final String HEADER_USERNAME = "username";
     public static final String HEADER_PASSWORD = "password";
     public static final String HEADER_ERROR = "error";
     public static final String JWT_SECRET = "secret";
     public static String JWT_PREFIX = "Bearer ";
+    public static String JWT_REFRESH_TOKEN_MISSING_ERROR_MESSAGE = "Refresh token is missing";
+    public static String ROLES = "roles";
+    public static String REFRESH_TOKEN_URL = "/users/refreshToken";
+    public static String LOGIN_URL = "login";
+    public static String HEADER_ERROR_MESSAGE = "error_message";
+    public static String HEADER_ACCESS_TOKEN = "access_token";
+    public static String HEADER_REFRESH_TOKEN = "refresh_token";
+    public static int JWT_TOKEN_LIFETIME = 20 * 60 * 1000;
+    public static int JWT_REFRESH_TOKEN_LIFETIME = 200 * 60 * 1000;
 
     public static final String[] ENDPOINTS_AUTHORIZATION_WHITELIST = {
             "/",
@@ -39,7 +49,7 @@ public class LibraryConstants {
             "/configuration/ui",
             "/configuration/security",
             "/swagger-ui.html",
-            "/webjars/**",
+            "/webjars/**"
     };
     public static final String[] ENDPOINTS_USER_AUTHORITY_READ = {
             "/tags/allTags",
@@ -49,12 +59,12 @@ public class LibraryConstants {
             "/authors/{id:[^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$]}",
             "/books/allBooks",
             "/books/{id:[^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$]}",
-            "/users/{id:[^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$]}",
+            "/users/{id:[^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$]}"
     };
     public static final String[] ENDPOINTS_USER_AUTHORITY_WRITE = {
             "/orders", "/orders/",
     };
-    public static final String[] ENDPOINTS_USER_AUTHORITY_EDITE = {
+    public static final String[] ENDPOINTS_USER_AUTHORITY_EDIT = {
             "/orders/{id:[^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$]}", "/users/{id}"
     };
     public static final String[] ENDPOINTS_USER_AUTHORITY_DELETE = {
@@ -69,14 +79,13 @@ public class LibraryConstants {
     public static final String[] ENDPOINTS_ADMIN_AUTHORITY_PATCH = {
             "/orders/{id}"
     };
-    public static final String[] ENDPOINTS_ADMIN_AUTHORITY_EDITE = {
+    public static final String[] ENDPOINTS_ADMIN_AUTHORITY_EDIT = {
             "/authors/{id}", "/books/{id}", "/tags/{id}"
     };
     public static final String[] ENDPOINTS_ADMIN_AUTHORITY_WRITE = {
-            "/authors", "/authors/", "/books", "/books/", "/tags", "/tags/", "/users/admin"
+            "/authors", "/authors/", "/books", "/books/", "/tags", "/tags/", "/registration/admin", "/registration/admin/"
     };
     public static final String[] ENDPOINTS_ADMIN_AUTHORITY_READ = {
             "/orders/allOrders", "/orders/allOrders/", "/users/allUsers", "/users/allUsers/"
     };
-
 }

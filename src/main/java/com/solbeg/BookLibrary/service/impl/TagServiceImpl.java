@@ -26,6 +26,7 @@ public class TagServiceImpl implements TagService {
     private final BookRepository bookRepository;
     private final TagMapper tagMapper;
 
+    @Transactional(readOnly = true)
     @Override
     public Set<TagResponseDto> findAllTags() {
         return tagRepository.findAll().stream()
@@ -33,6 +34,7 @@ public class TagServiceImpl implements TagService {
                 .collect(Collectors.toSet());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public TagResponseDto findTagById(String id) {
         return tagMapper.convertTagToTagResponseDto(findTagOrThrowException(id));
@@ -70,6 +72,7 @@ public class TagServiceImpl implements TagService {
         tagRepository.delete(tag);
     }
 
+    @Override
     public Set<Tag> getExistingTagsOrThrowException(Set<TagRequestDto> tags) {
         if (tags == null) {
             return new HashSet<>();

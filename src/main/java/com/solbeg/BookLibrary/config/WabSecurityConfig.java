@@ -18,13 +18,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static com.solbeg.BookLibrary.utils.LibraryConstants.ENDPOINTS_ADMIN_AUTHORITY_DELETE;
-import static com.solbeg.BookLibrary.utils.LibraryConstants.ENDPOINTS_ADMIN_AUTHORITY_EDITE;
+import static com.solbeg.BookLibrary.utils.LibraryConstants.ENDPOINTS_ADMIN_AUTHORITY_EDIT;
 import static com.solbeg.BookLibrary.utils.LibraryConstants.ENDPOINTS_ADMIN_AUTHORITY_PATCH;
 import static com.solbeg.BookLibrary.utils.LibraryConstants.ENDPOINTS_ADMIN_AUTHORITY_READ;
 import static com.solbeg.BookLibrary.utils.LibraryConstants.ENDPOINTS_ADMIN_AUTHORITY_WRITE;
 import static com.solbeg.BookLibrary.utils.LibraryConstants.ENDPOINTS_AUTHORIZATION_WHITELIST;
 import static com.solbeg.BookLibrary.utils.LibraryConstants.ENDPOINTS_USER_AUTHORITY_DELETE;
-import static com.solbeg.BookLibrary.utils.LibraryConstants.ENDPOINTS_USER_AUTHORITY_EDITE;
+import static com.solbeg.BookLibrary.utils.LibraryConstants.ENDPOINTS_USER_AUTHORITY_EDIT;
 import static com.solbeg.BookLibrary.utils.LibraryConstants.ENDPOINTS_USER_AUTHORITY_READ;
 import static com.solbeg.BookLibrary.utils.LibraryConstants.ENDPOINTS_USER_AUTHORITY_WRITE;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -54,11 +54,11 @@ public class WabSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers(ENDPOINTS_AUTHORIZATION_WHITELIST).permitAll()
                 .antMatchers(HttpMethod.GET, ENDPOINTS_USER_AUTHORITY_READ).hasAnyAuthority(Authority.READ.name())
                 .antMatchers(HttpMethod.POST, ENDPOINTS_USER_AUTHORITY_WRITE).hasAnyAuthority(Authority.WRITE.name())
-                .antMatchers(HttpMethod.PUT, ENDPOINTS_USER_AUTHORITY_EDITE).hasAnyAuthority(Authority.EDIT.name())
+                .antMatchers(HttpMethod.PUT, ENDPOINTS_USER_AUTHORITY_EDIT).hasAnyAuthority(Authority.EDIT.name())
                 .antMatchers(HttpMethod.DELETE, ENDPOINTS_USER_AUTHORITY_DELETE).hasAnyAuthority(Authority.DELETE.name())
                 .antMatchers(HttpMethod.GET, ENDPOINTS_ADMIN_AUTHORITY_READ).hasAnyAuthority(Authority.ALL.name())
                 .antMatchers(HttpMethod.POST, ENDPOINTS_ADMIN_AUTHORITY_WRITE).hasAnyAuthority(Authority.ALL.name())
-                .antMatchers(HttpMethod.PUT, ENDPOINTS_ADMIN_AUTHORITY_EDITE).hasAnyAuthority(Authority.ALL.name())
+                .antMatchers(HttpMethod.PUT, ENDPOINTS_ADMIN_AUTHORITY_EDIT).hasAnyAuthority(Authority.ALL.name())
                 .antMatchers(HttpMethod.PATCH, ENDPOINTS_ADMIN_AUTHORITY_PATCH).hasAnyAuthority(Authority.ALL.name())
                 .antMatchers(HttpMethod.DELETE, ENDPOINTS_ADMIN_AUTHORITY_DELETE).hasAnyAuthority(Authority.ALL.name())
                 .anyRequest().authenticated()

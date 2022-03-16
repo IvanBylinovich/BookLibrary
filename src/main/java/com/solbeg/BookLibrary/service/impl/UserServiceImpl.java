@@ -31,11 +31,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import static com.solbeg.BookLibrary.utils.LibraryConstants.JWT_PREFIX;
+import static com.solbeg.BookLibrary.utils.LibraryConstants.JWT_REFRESH_TOKEN_MISSING_ERROR_MESSAGE;
+import static com.solbeg.BookLibrary.utils.LibraryConstants.JWT_SECRET;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Service
@@ -76,35 +78,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserResponseDto createUser(UserRequestDto userRequestDto) {
-        validationUsername(userRequestDto.getUsername());
-        User user = userMapper.convertUserRequestDtoToUser(userRequestDto);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(Role.USER);
-        user.setCreatedAt(ZonedDateTime.now());
-        user.setUpdatedAt(ZonedDateTime.now());
-        userRepository.save(user);
-        return userMapper.convertUserToUserResponseDto(user);
+    public UserResponseDto registerUser(UserRequestDto userRequestDto) {
+        return userMapper.convertUserToUserResponseDto(createUser(userRequestDto, Role.USER));
     }
 
-    public UserResponseDto createUserAdmin(UserRequestDto userRequestDto) {
-        validationUsername(userRequestDto.getUsername());
-        User user = userMapper.convertUserRequestDtoToUser(userRequestDto);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(Role.ADMIN);
-        user.setCreatedAt(ZonedDateTime.now());
-        user.setUpdatedAt(ZonedDateTime.now());
-        userRepository.save(user);
-        return userMapper.convertUserToUserResponseDto(user);
+    @Override
+    public UserResponseDto registerAdmin(UserRequestDto userRequestDto) {
+        return userMapper.convertUserToUserResponseDto(createUser(userRequestDto, Role.ADMIN));
     }
 
     @Override
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+        if (authorizationHeader != null && authorizationHeader.startsWith(JWT_PREFIX)) {
             try {
-                String refresh_token = authorizationHeader.substring("Bearer ".length());
-                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+                String refresh_token = authorizationHeader.substring(JWT_PREFIX.length());
+                Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET.getBytes());
                 User user = (User) jwtService.getRequestUser(algorithm, refresh_token, this);
                 String access_token = jwtService.createAccessToken(user, request, algorithm);
                 Map<String, String> tokens = jwtService.mapTokens(access_token, refresh_token);
@@ -114,7 +103,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 JWTResponseService.configurationJSONResponse(response, error);
             }
         } else {
-            throw new RuntimeException("Refresh token is missing");
+            throw new RuntimeException(JWT_REFRESH_TOKEN_MISSING_ERROR_MESSAGE);
         }
     }
 
@@ -156,9 +145,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
     }
 
+    private User createUser(UserRequestDto userRequestDto, Role role) {
+        validationUsername(userRequestDto.getUsername());
+        User user = userMapper.convertUserRequestDtoToUser(userRequestDto);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(role);
+        user.setCreatedAt(ZonedDateTime.now());
+        user.setUpdatedAt(ZonedDateTime.now());
+        return userRepository.save(user);
+    }
+
     private void deleteOrders(User user) {
-        List<Order> orders = orderRepository.findAllByUser(user).orElse(new ArrayList<>());
-        if (!orders.isEmpty()) {
+        List<Order> orders = orderRepository.findAllByUser(user).orElse(null);
+        if (orders != null) {
             List<OrderPosition> positions = orders.stream()
                     .map(Order::getOrderPositions)
                     .flatMap(Collection::stream)

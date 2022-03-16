@@ -15,7 +15,7 @@ import static com.solbeg.BookLibrary.utils.LibraryConstants.ID_SWAGGER_EXAMPLE;
 @Setter
 public class OrderRequestDto {
 
-    @NotBlank(message = "Id of user who to making order should not be null or empty")
+    @NotBlank(message = "User's id should not be null or empty")
     @ApiModelProperty(value = "User's id", example = ID_SWAGGER_EXAMPLE, required = true)
     private String userId;
 
