@@ -1,7 +1,10 @@
 package com.solbeg.BookLibrary.dto;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import static com.solbeg.BookLibrary.utils.LibraryConstants.AUTHOR_FIRST_NAME_SWAGGER_EXAMPLE;

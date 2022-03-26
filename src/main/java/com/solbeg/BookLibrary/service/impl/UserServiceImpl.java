@@ -110,12 +110,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserResponseDto updateUser(String id, UserRequestDto userRequestDto) {
         User existingUser = findUserByIdOrThrowException(id);
+        validationUsername(userRequestDto.getUsername());
         User user = userMapper.convertUserRequestDtoToUser(userRequestDto);
         user.setId(existingUser.getId());
         user.setCreatedAt(existingUser.getCreatedAt());
         user.setUpdatedAt(ZonedDateTime.now());
         user.setRole(existingUser.getRole());
-        return userMapper.convertUserToUserResponseDto(userRepository.save(user));
+        userRepository.save(user);
+        return userMapper.convertUserToUserResponseDto(user);
     }
 
     @Transactional
@@ -152,7 +154,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setRole(role);
         user.setCreatedAt(ZonedDateTime.now());
         user.setUpdatedAt(ZonedDateTime.now());
-        return userRepository.save(user);
+        userRepository.save(user);
+        return user;
     }
 
     private void deleteOrders(User user) {

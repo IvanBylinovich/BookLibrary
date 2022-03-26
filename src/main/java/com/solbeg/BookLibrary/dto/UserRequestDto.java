@@ -1,7 +1,9 @@
 package com.solbeg.BookLibrary.dto;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Email;
@@ -15,6 +17,8 @@ import static com.solbeg.BookLibrary.utils.LibraryConstants.USER_LAST_FIRST_NAME
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserRequestDto {
 
     @NotBlank(message = "Username should not be null or empty")
