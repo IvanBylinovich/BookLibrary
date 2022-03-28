@@ -2,7 +2,9 @@ package com.solbeg.BookLibrary.dto;
 
 import com.solbeg.BookLibrary.model.OrderStatus;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -15,6 +17,8 @@ import static com.solbeg.BookLibrary.utils.LibraryConstants.TOTAL_AMOUNT_SWAGGER
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderResponseDto {
 
     @ApiModelProperty(value = "Order's id", example = ID_SWAGGER_EXAMPLE)

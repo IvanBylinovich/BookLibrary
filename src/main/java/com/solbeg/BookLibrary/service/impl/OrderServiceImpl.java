@@ -159,7 +159,8 @@ public class OrderServiceImpl implements OrderService {
         orderedBook.setTags(tags);
         orderedBook.setCreatedAt(book.getCreatedAt());
         orderedBook.setUpdatedAt(book.getUpdatedAt());
-        return orderedBookRepository.save(orderedBook);
+        orderedBookRepository.save(orderedBook);
+        return orderedBook;
     }
 
     private void deleteOrderPositions(Order order) {

@@ -1,7 +1,9 @@
 package com.solbeg.BookLibrary.dto;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 
@@ -18,6 +20,8 @@ import static com.solbeg.BookLibrary.utils.LibraryConstants.URL_SWAGGER_EXAMPLE;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class BookRequestDto {
 
     @NotBlank(message = "The book's title should not be null or empty")

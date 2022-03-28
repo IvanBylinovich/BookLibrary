@@ -1,7 +1,9 @@
 package com.solbeg.BookLibrary.dto;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Min;
@@ -13,6 +15,8 @@ import static com.solbeg.BookLibrary.utils.LibraryConstants.QUANTITY_SWAGGER_EXA
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderPositionRequestDto {
 
     @NotBlank(message = "The book's id should not be null or empty")

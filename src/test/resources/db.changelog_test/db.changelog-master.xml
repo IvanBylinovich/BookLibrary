@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <include relativeToChangelogFile="true" file="db.changelog-0001-author.xml"/>
+    <include relativeToChangelogFile="true" file="db.changelog-0002-book.xml"/>
+    <include relativeToChangelogFile="true" file="db.changelog-0003-tag.xml"/>
+    <include relativeToChangelogFile="true" file="db.changelog-0004-book-tag.xml"/>
+    <include relativeToChangelogFile="true" file="db.changelog-0005-users.xml"/>
+    <include relativeToChangelogFile="true" file="db.changelog-0006-order.xml"/>
+    <include relativeToChangelogFile="true" file="db.changelog-0007-ordered_book.xml"/>
+    <include relativeToChangelogFile="true" file="db.changelog-0008-order_position.xml"/>
+
+</databaseChangeLog>
